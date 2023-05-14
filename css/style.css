@@ -11,7 +11,35 @@ input {
 	outline:  none !important;
 	border-radius: 0 !important;	 
 }
+button{
+    font-family: 'Original Surfer', Times, serif;
+    font-size: 25px;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 14px;
+    background: #801919;
+    box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.1), inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
+    color: #DFDEDF;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.txt{
+    color: #801919; 
+    font-family: 'Original Surfer';
+    font-size: 22px;
+}
 
+.homePageDiv p{
+	padding-right: 50px;
+	padding-left: 30px;
+	text-align: justify;
+  
+	color: #333333; font-family: "Helvetica Neue",Arial,sans-serif; 
+	font-size: 16px; 
+	font-weight: 300; 
+	line-height: 1.5625; 
+	margin-bottom: 15px;
+  }
 
 html {
 	width: 100%;
