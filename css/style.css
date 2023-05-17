@@ -193,6 +193,8 @@ a:hover, a.link1:hover {
 }
 
 .img_inner {
+	width: 200px;
+	height: 200px;
 	max-width: 100%;
 	 -moz-box-sizing: border-box;
  -webkit-box-sizing: border-box;
@@ -237,7 +239,9 @@ a:hover, a.link1:hover {
 	float: none !important;
 	clear: both;
 }
-
+p{
+	text-align: justify;
+}
 
 /*header*/
 
@@ -284,10 +288,10 @@ h1 a img {
 
 .banner {
 	background: url(../images/banner_icon1.png) right 27px no-repeat;
-	margin-top: 76px;
+	margin-top: 50px;
 	border: 1px solid #d2d0d0;
-	padding: 49px 34px 40px;
-	margin-bottom: 77px;
+	padding: 49px 20px 40px;
+	margin-bottom: 50px;
 }
 
 .banner h3 {
