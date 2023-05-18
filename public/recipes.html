@@ -7,13 +7,6 @@
 <link rel="shortcut icon" href="images/favicon.ico">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/font-awesome.css">
-<script>
-$(document).ready(function () {
-    $().UItoTop({
-        easingType: 'easeOutQuart'
-    });
-});
-</script>=
 </head>
 <body>
 <header>
@@ -40,42 +33,38 @@ $(document).ready(function () {
   <div class="container_12">
     <div class="grid_12">
       <h3>Possible Recipes</h3>
+    
     </div>
+    
     <div class="grid_7">
       <div class="rec"><img src="images/page4_img1.jpg" alt="" class="img_inner fleft ">
         <div class="extra_wrapper">
-          <h4 class="head2"><a href="#">Fermus at manon nunoli </a></h4>
-          Lorem ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia a scelerisque eros. <br>
+          <h4 class="head2" id="recipeName">Recipe name</h4>
+          <p id="recipeDescription">Description</p> <br>
+          <p id="recipeRating">Rating</p> <br>
+          <p id="difficulty">Difficulty</p> <br>
           <a href="#" class="link1">Learn More</a> </div>
       </div>
-      <div class="rec"><img src="images/page4_img2.jpg" alt="" class="img_inner fleft ">
-        <div class="extra_wrapper">
-          <h4 class="head2"><a href="#">Gertyue deverra newloki</a></h4>
-          Cobeem ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia. <br>
-          <a href="#" class="link1">Learn More</a> </div>
-      </div>
-      <div class="rec"><img src="images/page4_img3.jpg" alt="" class="img_inner fleft ">
-        <div class="extra_wrapper">
-          <h4 class="head2"><a href="#">Nolinteger nvallis arcim velter </a></h4>
-          Lorem ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia a scelerisque eros. <br>
-          <a href="#" class="link1">Learn More</a> </div>
-      </div>
+      
     </div>
     <div class="grid_4 prefix_1">
-      <h4>Gourmet Ideas</h4>
+      
+      <h4>Filter by:</h4>
       <ul class="list">
-        <li><a href="#">Duis massa elit, auctor non pellentesque vel.</a></li>
-        <li><a href="#">Nullam eget dignissim nisi, aliquam feugiat nibh. </a></li>
-        <li><a href="#">Ut nisi nibh, sagittis ut semper elementum.</a></li>
-        <li><a href="#">Pellentesque a odiohasellus vitae libero vel.</a></li>
-        <li><a href="#">Justo pretium dignissimnteger semper in estgue.</a></li>
-        <li><a href="#"> In laoreet lacus eros, vel pulvinar urna ultut.</a></li>
-        <li><a href="#">Monrelo a odiohasellus vitae libero vellloti.</a></li>
-        <li><a href="#">Berusto pretium dignissimer. </a></li>
-        <li><a href="#">Nernteger semper in estguem.</a></li>
-        <li><a href="#">Kollaoreet lacus eros, vel pulvinar urnat.</a></li>
+        <li><a href="#">Expiration date</a></li>
+        <li><a href="#">Rating </a></li>
+        <li><a href="#">Difficulty</a></li>
       </ul>
+      <h2>&nbsp;</h2>
+      <div class="addRecipe">
+      Name: <textarea></textarea><br>
+      Description: <textarea></textarea>
+      Difficulty: <textarea></textarea>
+      <h2>&nbsp;</h2>
+      <button id="addRecipe">Add new recipe</button>
     </div>
+    </div>
+    
   </div>
 </div>
 
