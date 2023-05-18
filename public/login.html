@@ -11,42 +11,7 @@
 <link rel="stylesheet" href="css/elastislide.css">
 <link rel="stylesheet" href="css/styleLogin.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
-<script>
-/*$(window).load(function () {
-    $('#mi-slider').catslider();
-    $('#carousel').elastislide({
-        orientation: 'vertical'
-    });
-});
-$(window).load(function () {
-    $('#carousel1').carouFredSel({
-        auto: false,
-        prev: '.prev1',
-        next: '.next1',
-        width: 220,
-        items: {
-            visible: {
-                min: 1,
-                max: 1
-            },
-            height: 'auto',
-            width: 220,
-        },
-        responsive: true,
-        scroll: 1,
-        mousewheel: false,
-        swipe: {
-            onMouse: false,
-            onTouch: false
-        }
-    });
-});
-$(document).ready(function () {
-    $().UItoTop({
-        easingType: 'easeOutQuart'
-    });
-});*/
-</script>
+
 <style>
     body {
         background: url('images/dc.jpg');
@@ -87,18 +52,52 @@ $(document).ready(function () {
               <h3>Login</h3>
               <div class="content">
                 <div class="input-field">
-                  <input type="email" placeholder="Email" autocomplete="nope">
+                  <input type="email" placeholder="Email" autocomplete="nope" id="email">
                 </div>
                 <div class="input-field">
-                  <input type="password" placeholder="Password" autocomplete="new-password">
+                  <input type="password" placeholder="Password" autocomplete="password" id="password">
                 </div>
               </div>
               <div class="action" >
                 <button><a href="signup.html">Sign up</a></button>
-                <a href="index.html"><button><a href="index.html">Log in</a></button></a>
+                <button id="loginBtn">Log in</button>
               </div>
             </form>
           </div>
     </div>
+    <script>
+      document.getElementById("loginBtn").addEventListener("click", login);
+    
+      function login() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+    
+        const user = {
+          email: email,
+          password: password
+        };
+    
+        fetch('/login', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("Login successful");
+            window.location.href = "index.html"; // Redirect to login page
+          } else {
+            alert("Login failed: " + data.message);
+          }
+        })
+        .catch(error => {
+          console.error("Error logging in:", error);
+        });
+      }
+    </script>
+    
 </body>
 </html>
