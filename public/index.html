@@ -9,42 +9,7 @@
 <link rel="stylesheet" href="css/font-awesome.css">
 <link rel="stylesheet" href="css/slider.css">
 <link rel="stylesheet" href="css/elastislide.css">
-<script>
-$(window).load(function () {
-    $('#mi-slider').catslider();
-    $('#carousel').elastislide({
-        orientation: 'vertical'
-    });
-});
-$(window).load(function () {
-    $('#carousel1').carouFredSel({
-        auto: false,
-        prev: '.prev1',
-        next: '.next1',
-        width: 220,
-        items: {
-            visible: {
-                min: 1,
-                max: 1
-            },
-            height: 'auto',
-            width: 220,
-        },
-        responsive: true,
-        scroll: 1,
-        mousewheel: false,
-        swipe: {
-            onMouse: false,
-            onTouch: false
-        }
-    });
-});
-$(document).ready(function () {
-    $().UItoTop({
-        easingType: 'easeOutQuart'
-    });
-});
-</script>
+
 </head>
 <body class="page1">
 <header>
@@ -56,7 +21,7 @@ $(document).ready(function () {
           <ul class="sf-menu">
             <li class="current"><a href="index.html">Home</a></li>
             <li><a href="products.html">My food</a></li>
-            <li><a href="blog.html">Blog</a></li>
+            <li><a href="blog.html">Offerings</a></li>
             <li><a href="recipes.html">Recipes</a></li>
             <li><a href="profile.html">Profile</a></li>
           </ul>

@@ -7,13 +7,7 @@
 <link rel="shortcut icon" href="images/favicon.ico">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/font-awesome.css">
-<script>
-$(document).ready(function () {
-    $().UItoTop({
-        easingType: 'easeOutQuart'
-    });
-});
-</script>
+
 </head>
 <body>
 <header>
@@ -25,7 +19,7 @@ $(document).ready(function () {
           <ul class="sf-menu">
             <li><a href="index.html">Home</a></li>
             <li><a href="products.html">My food</a></li>
-            <li class="current"><a href="blog.html">Blog</a></li>
+            <li class="current"><a href="blog.html">Offerings</a></li>
             <li><a href="recipes.html">Recipes</a></li>
             <li><a href="profile.html">Profile</a></li>
           </ul>
@@ -39,60 +33,32 @@ $(document).ready(function () {
 <div class="content">
   <div class="container_12">
     <div class="grid_12">
-      <h3>My Offered Food</h3>
+      <h3>Offered Food</h3>
     </div>
     <div class="grid_7">
       <div class="blog"> <img src="images/page3_img1.jpg" alt="" class="img_inner fleft">
         <div class="extra_wrapper">
-          <h4><a href="#">Vivamus at magna non nunc </a></h4>
-          <time datetime="2045-01-01">October 13, 2045</time>
-          Lorem ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia a scelerisque eros. <br>
-          <a href="#" class="link1">Learn More</a> </div>
-      </div>
-      <div class="blog"> <img src="images/page3_img2.jpg" alt="" class="img_inner fleft">
-        <div class="extra_wrapper">
-          <h4><a href="#">Quisque viverra nulla nun</a></h4>
-          <time datetime="2045-01-01">October 13, 2045</time>
-          Cobeem ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia. <br>
-          <a href="#" class="link1">Learn More</a> </div>
-      </div>
-      <div class="blog"> <img src="images/page3_img3.jpg" alt="" class="img_inner fleft">
-        <div class="extra_wrapper">
-          <h4><a href="#">Integer convallis orci vel </a></h4>
-          <time datetime="2045-01-01">October 13, 2045</time>
-          Lorem ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia a scelerisque eros. <br>
-          <a href="#" class="link1">Learn More</a> </div>
-      </div>
-      <div class="blog"> <img src="images/page3_img4.jpg" alt="" class="img_inner fleft">
-        <div class="extra_wrapper">
-          <h4><a href="#">Amus at magna non nuno </a></h4>
-          <time datetime="2045-01-01">October 13, 2045</time>
-          Hew ipsum dolor sit aconsectetur adipiscing elit. In mollis erat mat. neque facilisis, sit amet ultricies erat rutrum. Cras facilisis, nulla vel viverra auctor, leo ame magna sodales felis, quis malesuada nibh odio ut velit. Proin pharetra luctus dia a scelerisqu. <br>
-          <a href="#" class="link1">Learn More</a> </div>
+          <h4 id="foodName"> Food name</h4>
+          <p>Expiration date:<time datetime="2045-01-01" id="expDate">October 13, 2045</time></p>
+          <p>Location: <txt id="userLocation">User location</txt></p>
+          <p>By: <txt id="userName">User name</txt></p>
+          <a href="user.html" class="link1">Visit user profile</a> </div>
       </div>
     </div>
     <div class="grid_4 prefix_1">
-      <h4>Categories</h4>
+      <h4>Filter by:</h4>
       <ul class="list">
-        <li><a href="#">Duis massa elit, auctor non pellentesque vel.</a></li>
-        <li><a href="#">Nullam eget dignissim nisi, aliquam feugiat nibh. </a></li>
-        <li><a href="#">Ut nisi nibh, sagittis ut semper elementum.</a></li>
-        <li><a href="#">Pellentesque a odiohasellus vitae libero vel.</a></li>
-        <li><a href="#">Justo pretium dignissieger semper in estgue.</a></li>
-        <li><a href="#"> In laoreet lacus eros, vel pulvinar urna ultut.</a></li>
+        <li><a href="#">Expiration date</a></li>
+        <li><a href="#">Location </a></li>
+        <li><a href="#">Missing for recipe</a></li>
       </ul>
-      <h4 class="head1">Recent Posts</h4>
+      <h4 class="head1">My Offered Food:</h4>
       <div class="post">
         <div class="l_blox"> <img src="images/page3_img5.jpg" alt="">
+          <h2 id="foodName"> Food name</h2>
           <time datetime="2045-01-01">2045-07-04</time>
         </div>
-        <div class="extra_wrapper"><a href="#">Cras facilisis, nulla vel viverra auctor, leo ame magna dales felis, quis malesuada nibher odio ut velit. Proin pharetra li luctus dia a scelerisque mi convallis accumsan. </a></div>
-      </div>
-      <div class="post">
-        <div class="l_blox"> <img src="images/page3_img6.jpg" alt="">
-          <time datetime="2045-01-01">2045-08-07</time>
-        </div>
-        <div class="extra_wrapper"><a href="#">Joas facilisis, nulla vel viverra auctor, leo ame magna dales felis, quis malesuada nibher odio ut velit. Proin pharetra li luctus dia a scelerisque mi convallis accumer. </a></div>
+        <div class="extra_wrapper"><a href="#"></a></div>
       </div>
       <h4 class="head1">Food Requests</h4>
       <div class="comm">
@@ -102,16 +68,14 @@ $(document).ready(function () {
             <time datetime="2045-01-01">September 11, 2045</time>
           </div>
         </div>
-        Maecenas vehicula egestas venenatis. Fertolo milotti. Duis massa elit, auctor non pellentesque vel. </div>
-      <div class="comm">
+        <div class="comm">
         <div class="user"> <img src="images/page3_img7.jpg" alt="" class="img_inner fleft">
           <div class="extra_wrapper">
             <p><a href="#">Anja</a></p>
             <time datetime="2045-01-01">September 14, 2045</time>
           </div>
         </div>
-        Neraecenas vehicula egestas venenatis. Fertolo milottiis massa elit, auctor non pellentesq. </div>
-    </div>
+         </div>
   </div>
 </div>
 

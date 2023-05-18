@@ -9,42 +9,7 @@
 <link rel="stylesheet" href="css/font-awesome.css">
 <link rel="stylesheet" href="css/slider.css">
 <link rel="stylesheet" href="css/elastislide.css">
-<script>
-$(window).load(function () {
-    $('#mi-slider').catslider();
-    $('#carousel').elastislide({
-        orientation: 'vertical'
-    });
-});
-$(window).load(function () {
-    $('#carousel1').carouFredSel({
-        auto: false,
-        prev: '.prev1',
-        next: '.next1',
-        width: 220,
-        items: {
-            visible: {
-                min: 1,
-                max: 1
-            },
-            height: 'auto',
-            width: 220,
-        },
-        responsive: true,
-        scroll: 1,
-        mousewheel: false,
-        swipe: {
-            onMouse: false,
-            onTouch: false
-        }
-    });
-});
-$(document).ready(function () {
-    $().UItoTop({
-        easingType: 'easeOutQuart'
-    });
-});
-</script>
+
 <style>
     body {
         background: url('images/dc.jpg');
