@@ -1,0 +1,26 @@
+{
+  "name": "lunch",
+  "version": "1.0.0",
+  "description": "HTML CSS nodejs project",
+  "main": "home.js",
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dolouress/fridgeHTML.git"
+  },
+  "keywords": [
+    "lunch",
+    "fridge"
+  ],
+  "author": "mia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dolouress/fridgeHTML/issues"
+  },
+  "homepage": "https://github.com/dolouress/fridgeHTML#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
