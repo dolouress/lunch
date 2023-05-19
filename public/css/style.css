@@ -585,7 +585,11 @@ address dd span {
 	text-align: right;
 }
 
-
+.divSignup{
+	margin-left: 10px;
+	margin-top: 50px;
+	width: 1000px;
+}
 
 /************Footer***********/
 

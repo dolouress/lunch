@@ -1,7 +1,17 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const path = require('path');
 const User = require('./models/user');
+const Food = require('./models/food');
+
+// Configure session middleware
+app.use(session({
+  secret: 'miaskey',
+  resave: false,
+  saveUninitialized: false
+}));
+
 
 // Middleware to parse JSON data
 app.use(express.json());
@@ -17,6 +27,7 @@ app.post('/signup', (req, res) => {
     }
 
     console.log('User created successfully. User ID:', userId);
+    req.session.userId = userId;
     return res.status(200).json({ success: true, message: 'User created successfully' });
   });
 });
@@ -31,18 +42,38 @@ app.post('/login', (req, res) => {
       return res.status(500).json({ success: false, message: 'Error finding user' });
     }
 
-    if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password' });
-    }
-
-    if (user.password !== password) {
+    if (!user || user.password !== password) {
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
     // User authentication successful
+    req.session.userId = user.user_id;
     return res.status(200).json({ success: true, message: 'User authentication successful' });
   });
 });
+
+//SHOWING USERS FOOD ON MY FOOD PRODUCTS.HTML
+
+
+app.get('/user-food', (req, res) => {
+  const userId = req.session.userId;
+  // Log the value of userId
+  console.log('User ID:', userId);
+  
+  Food.findFoodByUserId(userId, (error, results) => {
+    if (error) {
+      console.error('Error retrieving user food:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('User food:', results);
+      res.json(results);
+    }
+  });
+});
+
+
+
+
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));

@@ -14,6 +14,7 @@
     font-size: 20px;
   }
 </style>
+
 <body>
 <header>
   <div class="container_12">
@@ -42,22 +43,50 @@
     </div>
     <div class="clear">
     </div>
-    <div class="prod">
-      <div class="grid_3">
-        <div class="box">
-          <div class="maxheight"><a href="images/big10.jpg" class="gal"><img src="images/page2_img10.jpg" alt=""></a></div>
-        </div>
-      </div>
-      <p id="foodName">Name</p>
-      <p id="expDate">Date</p>
-      <p id="recipesNum">Recipes found</p>
-      <p id="isOffered">Offered y/n</p>
-      <button>Offer to others</button>
-    </div>
+    <div id="foodList"></div>
+    
     
   </div>
   
 </div>
+<script>
+  window.onload = () => {
+    // Fetch user's food data
+    fetch('/user-food')
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received food data
+        if ( data.length > 0) {
+          // Display the food items in the HTML page
+          const foodList = document.getElementById('foodList');
 
+          data.forEach(food => {
+            const foodName = food.name;
+            const expirationDate = food.expiration_date;
+
+            const foodItem = document.createElement('div');
+            foodItem.classList.add('prod');
+
+            const nameElement = document.createElement('p');
+            nameElement.textContent = `Name: ${foodName}`;
+            foodItem.appendChild(nameElement);
+
+            const expirationElement = document.createElement('p');
+            expirationElement.textContent = `Expiration Date: ${expirationDate}`;
+            foodItem.appendChild(expirationElement);
+
+            foodList.appendChild(foodItem);
+          });
+        } else {
+          // Display a message when there are no food items
+          const foodList = document.getElementById('foodList');
+          foodList.innerHTML = '<p>No food items found.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving user food:', error);
+      });
+  };
+</script>
 </body>
 </html>
