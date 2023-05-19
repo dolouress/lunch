@@ -45,6 +45,9 @@
           <p id="difficulty">Difficulty</p> <br>
           <a href="#" class="link1">Learn More</a> </div>
       </div>
+      <div id="recipeList">
+
+      </div>
       
     </div>
     <div class="grid_4 prefix_1">
@@ -67,6 +70,44 @@
     
   </div>
 </div>
+<script>
+  window.onload = () => {
+    // Fetch user's food data
+    fetch('/recipe-food')
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received food data
+        if ( data.length > 0) {
+          // Display the food items in the HTML page
+          const recipeList = document.getElementById('recipeList');
 
+          data.forEach(recipe => {
+            const recipeName = recipe.name;
+            const description = recipe.description;
+
+            const recipeItem = document.createElement('div');
+            recipeItem.classList.add('rec');
+
+            const nameElement = document.createElement('p');
+            nameElement.textContent = `Name: ${recipeName}`;
+            recipeItem.appendChild(nameElement);
+
+            const descriptionElement = document.createElement('p');
+            descriptionElement.textContent = `Description: ${description}`;
+            recipeItem.appendChild(descriptionElement);
+
+            recipeList.appendChild(recipeItem);
+          });
+        } else {
+          // Display a message when there are no food items
+          const recipeList = document.getElementById('recipeList');
+          recipeList.innerHTML = '<p>No recipe items found.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving user recipe:', error);
+      });
+  };
+</script>
 </body>
 </html>
