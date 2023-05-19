@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const User = require('./models/user');
 const Food = require('./models/food');
+const Recipe = require('./models/recipe');
 
 // Configure session middleware
 app.use(session({
@@ -53,8 +54,6 @@ app.post('/login', (req, res) => {
 });
 
 //SHOWING USERS FOOD ON MY FOOD PRODUCTS.HTML
-
-
 app.get('/user-food', (req, res) => {
   const userId = req.session.userId;
   // Log the value of userId
@@ -71,6 +70,22 @@ app.get('/user-food', (req, res) => {
   });
 });
 
+//SHOWING food recipes Of MY FOOD PRODUCTS.HTML
+app.get('/recipe-food', (req, res) => {
+  const userId = req.session.userId;
+  // Log the value of userId
+  console.log('User ID:', userId);
+  
+  Recipe.possibleRecipe(userId, (error, results) => {
+    if (error) {
+      console.error('Error retrieving recipes:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Recipes:', results);
+      res.json(results);
+    }
+  });
+});
 
 
 
