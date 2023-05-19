@@ -73,18 +73,32 @@ app.get('/user-food', (req, res) => {
 //SHOWING food recipes Of MY FOOD PRODUCTS.HTML
 app.get('/recipe-food', (req, res) => {
   const userId = req.session.userId;
+  const sort = req.query.sort;
   // Log the value of userId
   console.log('User ID:', userId);
-  
-  Recipe.possibleRecipe(userId, (error, results) => {
-    if (error) {
-      console.error('Error retrieving recipes:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      console.log('Recipes:', results);
-      res.json(results);
-    }
-  });
+  // Check if sorting parameter is provided
+  if (sort === 'difficulty') {
+    // Sort recipes by difficulty
+    Recipe.possibleRecipeSortedByDifficulty(userId,(error, results) => {
+      if (error) {
+        console.error('Error retrieving sorted recipes:', error);
+        return res.status(500).json({ error: 'An error occurred while retrieving sorted recipes' });
+      }
+      return res.json(results);
+    });
+  } 
+  else {
+      // Fetch all recipes
+    Recipe.possibleRecipe(userId, (error, results) => {
+      if (error) {
+        console.error('Error retrieving recipes:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('Recipes:', results);
+        res.json(results);
+      }
+    });
+  }
 });
 
 
