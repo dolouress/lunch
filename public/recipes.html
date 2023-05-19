@@ -46,11 +46,11 @@
     </div>
     <div class="grid_4 prefix_1">
       
-      <h4>Filter by:</h4>
+      <h4>Order by:</h4>
       <ul class="list">
-        <li><a href="#">Expiration date</a></li>
-        <li><a href="#">Rating </a></li>
-        <li><a href="#">Difficulty</a></li>
+        <li><a href="#" onclick="orderRecipes('expDate')">Expiration date</a></li>
+        <li><a href="#" onclick="orderRecipes('difficulty')">Difficulty</a></li>
+        <li><a href="#" onclick="orderRecipes('rating')">Rating</a></li>
       </ul>
       <h2>&nbsp;</h2>
       <div class="addRecipe">
@@ -103,8 +103,57 @@
       });
   };
 
-  //SORTING by difficulty
-  
+  //SORTING 
+  // Function to fetch and display recipes based on sorting parameter
+  function orderRecipes(sortBy) {
+    const recipeList = document.getElementById('recipeList');
+    recipeList.innerHTML = 'Loading...';
+
+    const url = '/recipe-food?sort=' + sortBy;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received recipe data
+        recipeList.innerHTML = '';
+
+        if (data.length > 0) {
+          data.forEach(recipe => {
+            const recipeName = recipe.name;
+            const description = recipe.description;
+            const rating = recipe.rating;
+            const difficulty = recipe.difficulty;
+
+            const recipeItem = document.createElement('div');
+            recipeItem.classList.add('rec');
+
+            const nameElement = document.createElement('p');
+            nameElement.textContent = `Name: ${recipeName}`;
+            recipeItem.appendChild(nameElement);
+
+            const descriptionElement = document.createElement('p');
+            descriptionElement.textContent = `Description: ${description}`;
+            recipeItem.appendChild(descriptionElement);
+
+            const ratingElement = document.createElement('p');
+            ratingElement.textContent = `Rating: ${rating}`;
+            recipeItem.appendChild(ratingElement);
+
+            const difficultyElement = document.createElement('p');
+            difficultyElement.textContent = `Difficulty: ${difficulty}`;
+            recipeItem.appendChild(difficultyElement);
+
+            recipeList.appendChild(recipeItem);
+          });
+        } else {
+          recipeList.innerHTML = '<p>No recipe items found.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving sorted recipes:', error);
+        recipeList.innerHTML = '<p>Error retrieving sorted recipes. Please try again later.</p>';
+      });
+  }
 </script>
 </body>
 </html>

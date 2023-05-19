@@ -55,7 +55,7 @@ app.post('/login', (req, res) => {
 
 //SHOWING USERS FOOD ON MY FOOD PRODUCTS.HTML
 app.get('/user-food', (req, res) => {
-  const userId = req.session.userId;
+  const userId = 1; //req.session.userId;
   // Log the value of userId
   console.log('User ID:', userId);
   
@@ -72,7 +72,7 @@ app.get('/user-food', (req, res) => {
 
 //SHOWING food recipes Of MY FOOD PRODUCTS.HTML
 app.get('/recipe-food', (req, res) => {
-  const userId = req.session.userId;
+  const userId = 1; //req.session.userId;
   const sort = req.query.sort;
   // Log the value of userId
   console.log('User ID:', userId);
@@ -80,6 +80,26 @@ app.get('/recipe-food', (req, res) => {
   if (sort === 'difficulty') {
     // Sort recipes by difficulty
     Recipe.possibleRecipeSortedByDifficulty(userId,(error, results) => {
+      if (error) {
+        console.error('Error retrieving sorted recipes:', error);
+        return res.status(500).json({ error: 'An error occurred while retrieving sorted recipes' });
+      }
+      return res.json(results);
+    });
+  } 
+  else if (sort === 'rating') {
+    // Sort recipes by rating
+    Recipe.possibleRecipeSortedByRating(userId, (error, results) => {
+      if (error) {
+        console.error('Error retrieving sorted recipes:', error);
+        return res.status(500).json({ error: 'An error occurred while retrieving sorted recipes' });
+      }
+      return res.json(results);
+    });
+  } 
+  else if (sort === 'expDate') {
+    // Sort recipes by rating
+    Recipe.possibleRecipeSortedByExpDate(userId, (error, results) => {
       if (error) {
         console.error('Error retrieving sorted recipes:', error);
         return res.status(500).json({ error: 'An error occurred while retrieving sorted recipes' });
