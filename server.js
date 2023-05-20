@@ -137,7 +137,31 @@ app.get('/recipe-food', (req, res) => {
   }
 });
 
+//ADDING USERS NEW FOOD
+app.post('/foods', (req, res) => {
+  const foodName = req.body.name;
+  const expirationDate = req.body.expirationDate;
 
+  Food.addFood(foodName, (error, foodId) => {
+    if (error) {
+      console.error('Error adding food:', error);
+      res.status(500).json({ error: 'Failed to add food item' });
+      return;
+    }
+
+    // Retrieve the newly inserted foodId and pass it to addUserFood
+    const userId = 1;
+    Food.addUserFood(userId, foodId, expirationDate, (error, userFoodId) => {
+      if (error) {
+        console.error('Error adding user food:', error);
+        res.status(500).json({ error: 'Failed to add food item' });
+        return;
+      }
+
+      res.status(201).json({ message: 'Food item added successfully' });
+    });
+  });
+});
 
 
 // Serve static files from the "public" directory
