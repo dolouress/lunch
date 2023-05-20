@@ -13,6 +13,9 @@
   p{
     font-size: 20px;
   }
+  button{
+    background-color: #858080;
+  }
 </style>
 
 <body>
@@ -87,6 +90,15 @@
             expirationElement.textContent = `Expiration Date: ${expirationDate}`;
             foodItem.appendChild(expirationElement);
 
+            const offered = document.createElement('button');
+            offered.textContent = `Offer`;
+
+
+            offered.addEventListener('click', () => {
+               markAsOffered(food.foodId);
+             });
+            foodItem.appendChild(offered);
+
             foodList.appendChild(foodItem);
           });
         } else {
@@ -128,7 +140,24 @@
         console.error('Error adding food item:', error);
       });
   });
-  };
+      function markAsOffered(foodId) {
+        // Send a request to mark the food item as offered
+        fetch(`/offer/${foodId}`, {
+          method: 'PUT'
+        })
+          .then(response => {
+            if (response.ok) {
+              // Food item marked as offered successfully, perform any necessary actions
+              console.log('Food item marked as offered successfully');
+            } else {
+              console.error('Failed to mark food item as offered');
+            }
+          })
+          .catch(error => {
+            console.error('Error marking food item as offered:', error);
+          });
+      }
+    };
 </script>
 </body>
 </html>

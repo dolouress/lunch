@@ -163,6 +163,21 @@ app.post('/foods', (req, res) => {
   });
 });
 
+//MARKING FOOD AS OFFERED
+app.post('/offer/:foodId', (req, res) => {
+  const foodId = req.params.foodId;
+
+  Food.markFoodAsOffered(foodId, (error, result) => {
+    if (error) {
+      console.error('Error marking food as offered:', error);
+      res.status(500).json({ error: 'Failed to mark food as offered' });
+    } else {
+      res.status(200).json({ message: 'Food item marked as offered' });
+    }
+  });
+});
+
+
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));

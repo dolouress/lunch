@@ -54,7 +54,18 @@ const Food = {
       }
       return callback(null, results.insertId);
     });
+  },
+  markFoodAsOffered: (foodId, callback) => {
+    const updateQuery = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ?';
+    connection.query(updateQuery, [foodId, 1], (error, result) => {
+      if (error) {
+        console.error('Error marking food as offered:', error);
+        return callback(error, null);
+      }
+      return callback(null, result);
+    });
   }
+  
 }
 
 
