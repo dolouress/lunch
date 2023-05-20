@@ -9,6 +9,11 @@ const Recipe = {
     JOIN recipe AS r ON rf.recipe_id = r.recipe_id
     WHERE uf.user_id = ?
     GROUP BY r.recipe_id
+    HAVING COUNT(DISTINCT rf.food_id) = (
+      SELECT COUNT(DISTINCT food_id)
+      FROM recipe_food
+      WHERE recipe_id = r.recipe_id
+    )
     `;
     connection.query(query, [userId], (error, results) => {
       if (error) {
@@ -27,7 +32,13 @@ const Recipe = {
     JOIN recipe AS r ON rf.recipe_id = r.recipe_id
     WHERE uf.user_id = ?
     GROUP BY r.recipe_id
-    ORDER BY r.difficulty;
+    
+    HAVING COUNT(DISTINCT rf.food_id) = (
+      SELECT COUNT(DISTINCT food_id)
+      FROM recipe_food
+      WHERE recipe_id = r.recipe_id
+    )
+    ORDER BY r.difficulty
     `;
     connection.query(query, [userId], (error, results) => {
       if (error) {
@@ -46,7 +57,13 @@ const Recipe = {
     JOIN recipe AS r ON rf.recipe_id = r.recipe_id
     WHERE uf.user_id = ?
     GROUP BY r.recipe_id
-    ORDER BY r.rating DESC;
+    
+    HAVING COUNT(DISTINCT rf.food_id) = (
+      SELECT COUNT(DISTINCT food_id)
+      FROM recipe_food
+      WHERE recipe_id = r.recipe_id
+    )
+    ORDER BY r.rating DESC
     `;
     connection.query(query, [userId], (error, results) => {
       if (error) {
@@ -65,7 +82,13 @@ const Recipe = {
     JOIN recipe AS r ON rf.recipe_id = r.recipe_id
     WHERE uf.user_id = ?
     GROUP BY r.recipe_id
-    ORDER BY uf.expiration_date ;
+    
+    HAVING COUNT(DISTINCT rf.food_id) = (
+      SELECT COUNT(DISTINCT food_id)
+      FROM recipe_food
+      WHERE recipe_id = r.recipe_id
+    )
+    ORDER BY uf.expiration_date 
     `;
     connection.query(query, [userId], (error, results) => {
       if (error) {
