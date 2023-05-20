@@ -13,6 +13,9 @@
   p{
     font-size: 20px;
   }
+  button{
+    background-color: #858080;
+  }
 </style>
 
 <body>
@@ -75,6 +78,7 @@
           data.forEach(food => {
             const foodName = food.name;
             const expirationDate = food.expiration_date;
+            const foodId = food.food_id;
 
             const foodItem = document.createElement('div');
             foodItem.classList.add('prod');
@@ -86,6 +90,23 @@
             const expirationElement = document.createElement('p');
             expirationElement.textContent = `Expiration Date: ${expirationDate}`;
             foodItem.appendChild(expirationElement);
+
+            const offered = document.createElement('button');
+            offered.textContent = `Offer`;
+
+            offered.addEventListener('click', () => {
+              markAsOffered(foodId);
+            });
+
+            const notOffered = document.createElement('button');
+            notOffered.textContent = `Don't offer`;
+
+            notOffered.addEventListener('click', () => {
+              markAsNotOffered(foodId);
+            });
+
+            foodItem.appendChild(offered);
+            foodItem.appendChild(notOffered);
 
             foodList.appendChild(foodItem);
           });
@@ -100,35 +121,91 @@
       });
 
       const addFoodButton = document.getElementById('addFood');
-  addFoodButton.addEventListener('click', () => {
-    const foodName = document.getElementById('foodName').value;
-    const foodExpirationDate = document.getElementById('foodExpirationDate').value;
+      addFoodButton.addEventListener('click', () => {
+          const foodName = document.getElementById('foodName').value;
+          const foodExpirationDate = document.getElementById('foodExpirationDate').value;
 
-    const foodData = {
-      name: foodName,
-      expirationDate: foodExpirationDate
+          const foodData = {
+            name: foodName,
+            expirationDate: foodExpirationDate
+          };
+
+          fetch('/foods', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(foodData)
+          })
+            .then(response => {
+              if (response.ok) {
+                // Food item added successfully, perform any necessary actions
+                console.log('Food item added successfully');
+              } else {
+                console.error('Failed to add food item');
+              }
+            })
+            .catch(error => {
+              console.error('Error adding food item:', error);
+            });
+        });
+  
+
+  // Function to mark food as offered
+  const markAsOffered = (foodId) => {
+              const data = {
+              foodId: foodId
+            };
+
+            fetch('/offer', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            .then(response => {
+                        if (response.ok) {
+                          // Food item added successfully, perform any necessary actions
+                          console.log('Food offered');
+                        } else {
+                          console.error('Failed to offer food item');
+                        }
+                      })
+                      .catch(error => {
+                        console.error('Error offering food item:', error);
+                      });
     };
 
-    fetch('/foods', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(foodData)
-    })
-      .then(response => {
-        if (response.ok) {
-          // Food item added successfully, perform any necessary actions
-          console.log('Food item added successfully');
-        } else {
-          console.error('Failed to add food item');
-        }
-      })
-      .catch(error => {
-        console.error('Error adding food item:', error);
-      });
-  });
-  };
+    // Function to mark food as not offered
+  const markAsNotOffered = (foodId) => {
+              const data = {
+              foodId: foodId
+            };
+
+            fetch('/dontoffer', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+            .then(response => {
+                        if (response.ok) {
+                          // Food item added successfully, perform any necessary actions
+                          console.log('Food offered');
+                        } else {
+                          console.error('Failed to offer food item');
+                        }
+                      })
+                      .catch(error => {
+                        console.error('Error offering food item:', error);
+                      });
+    };
+}
+
+
+  
 </script>
 </body>
 </html>

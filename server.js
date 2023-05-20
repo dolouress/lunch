@@ -5,6 +5,7 @@ const path = require('path');
 const User = require('./models/user');
 const Food = require('./models/food');
 const Recipe = require('./models/recipe');
+const connection = require('./config/database.js');
 
 // Configure session middleware
 app.use(session({
@@ -16,6 +17,7 @@ app.use(session({
 
 // Middleware to parse JSON data
 app.use(express.json());
+
 
 // Route handler for creating a new user
 app.post('/signup', (req, res) => {
@@ -150,7 +152,7 @@ app.post('/foods', (req, res) => {
     }
 
     // Retrieve the newly inserted foodId and pass it to addUserFood
-    const userId = 1;
+    const userId = 1; //req.session.userId;
     Food.addUserFood(userId, foodId, expirationDate, (error, userFoodId) => {
       if (error) {
         console.error('Error adding user food:', error);
@@ -162,6 +164,42 @@ app.post('/foods', (req, res) => {
     });
   });
 });
+
+// MARKING FOOD AS OFFERED
+
+app.post('/offer', (req, res) => {
+  const foodId = req.body.foodId;
+  const userId = 1; //req.session.userId;
+
+  // Update the is_offered field for the specified foodId
+  const query = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ?';
+  connection.query(query, [foodId, userId], (error, results) => {
+    if (error) {
+      console.error('Error marking food as offered:', error);
+      res.status(500).json({ message: 'Failed to mark food as offered' });
+    } else {
+      res.json({ message: 'Food marked as offered successfully' });
+    }
+  });
+});
+
+app.post('/dontoffer', (req, res) => {
+  const foodId = req.body.foodId;
+  const userId = 1; //req.session.userId;
+
+  // Update the is_offered field for the specified foodId
+  const query = 'UPDATE user_food SET is_offered = 0 WHERE food_id = ? AND user_id = ?';
+  connection.query(query, [foodId, userId], (error, results) => {
+    if (error) {
+      console.error('Error marking food as offered:', error);
+      res.status(500).json({ message: 'Failed to mark food as offered' });
+    } else {
+      res.json({ message: 'Food marked as offered successfully' });
+    }
+  });
+});
+
+
 
 
 // Serve static files from the "public" directory

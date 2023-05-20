@@ -3,7 +3,7 @@ const connection = require('../config/database.js');
 const Food = {
   findFoodByUserId: (userId, callback) => {
     const query = `
-      SELECT f.name, uf.expiration_date
+      SELECT f.food_id, f.name, uf.expiration_date
       FROM food AS f
       JOIN user_food AS uf ON f.food_id = uf.food_id
       WHERE uf.user_id = ?;
@@ -54,7 +54,25 @@ const Food = {
       }
       return callback(null, results.insertId);
     });
+  },
+
+
+  markFoodAsOffered: (foodId, userId, callback) => {
+    // Update the is_offered field for the specified foodId
+  const query = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ?';
+  connection.query(query, [foodId, userId], (error, result) => {
+    if (error) {
+      console.error('Error marking food as offered:', error);
+        console.log("ne radi");
+        return callback(error, null);
+    } else {
+      console.log("radi");
+      return callback(null, result);
+    }
+  });
   }
+  
+  
 }
 
 
