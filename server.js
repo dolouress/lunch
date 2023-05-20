@@ -218,6 +218,23 @@ app.get('/offeredFood', (req, res) => {
   });
 });
 
+//SHOWING USERS OFFERED FOOD ON blog.HTML
+app.get('/allOfferedFood', (req, res) => {
+  const userId = 1; //req.session.userId;
+  // Log the value of userId
+  console.log('User ID:', userId);
+  
+  Food.allOfferedFood(userId, (error, results) => {
+    if (error) {
+      console.error('Error retrieving user offered food:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Other users offered food:', results);
+      res.json(results);
+    }
+  });
+});
+
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));

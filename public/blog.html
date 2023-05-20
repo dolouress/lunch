@@ -35,13 +35,8 @@
       <h3>Offered Food</h3>
     </div>
     <div class="grid_7">
-      <div class="blog"> <img src="images/page3_img1.jpg" alt="" class="img_inner fleft">
-        <div class="extra_wrapper">
-          <h4 id="foodName"> Food name</h4>
-          <p>Expiration date:<time datetime="2045-01-01" id="expDate">October 13, 2045</time></p>
-          <p>Location: <txt id="userLocation">User location</txt></p>
-          <p>By: <txt id="userName">User name</txt></p>
-          <a href="user.html" class="link1">Visit user profile</a> </div>
+      <div class="blog" id="allOfferedFoodList">
+        
       </div>
     </div>
     <div class="grid_4 prefix_1">
@@ -53,10 +48,7 @@
       </ul>
       <h4 class="head1">My Offered Food:</h4>
       <div class="post" id="myOfferedFoodList">
-        <div class="l_blox" > 
-          <h2 id="foodName"> Food name</h2>
-          <time datetime="2045-01-01">2045-07-04</time>
-        </div>
+        
         <div class="extra_wrapper"><a href="#"></a></div>
       </div>
       <h4 class="head1">Food Requests</h4>
@@ -97,14 +89,71 @@
             foodItem.classList.add('l_blox');
 
             const nameElement = document.createElement('h2');
-            nameElement.textContent = `Name: ${foodName}`;
+            nameElement.textContent = `${foodName}`;
             foodItem.appendChild(nameElement);
 
-            const expirationElement = document.createElement('time');
-            
-            expirationElement.value = expirationDate;
-            expirationElement.dateTime = "2045-01-01";
+            const expirationElement = document.createElement('p');
+            let part = expirationDate.slice(0,10);
+            expirationElement.textContent = `${part}`;
+            //FIX DATE TO LOOK BETTER, LIKE DATE , USE time
             foodItem.appendChild(expirationElement);
+
+
+            foodList.appendChild(foodItem);
+          });
+        } else {
+          // Display a message when there are no food items
+          const foodList = document.getElementById('foodList');
+          foodList.innerHTML = '<p>No food items found.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving user food:', error);
+      });
+
+      // Fetch user's food data
+    fetch('/allOfferedFood')
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received food data
+        if ( data.length > 0) {
+          // Display the food items in the HTML page
+          const foodList = document.getElementById('allOfferedFoodList');
+
+          data.forEach(food => {
+            const foodName = food.name;
+            const expirationDate = food.expiration_date;
+            const foodId = food.food_id;
+            const userName = food.user_name;
+            const city = food.city;
+            const country = food.country;
+
+            const foodItem = document.createElement('div');
+            foodItem.classList.add('wrapper2');
+
+            const nameElement = document.createElement('h2');
+            nameElement.textContent = `${foodName}`;
+            foodItem.appendChild(nameElement);
+
+            const expirationElement = document.createElement('p');
+            let part = expirationDate.slice(0,10);
+            expirationElement.textContent = `${part}`;
+            //FIX DATE TO LOOK BETTER, LIKE DATE , USE time
+            foodItem.appendChild(expirationElement);
+
+            const locationElement = document.createElement('h2');
+            locationElement.textContent = `Location: ${city}, ${country}`;
+            foodItem.appendChild(locationElement);
+
+            const usernameElement = document.createElement('h2');
+            usernameElement.textContent = `By: ${userName}`;
+            foodItem.appendChild(usernameElement);
+
+            const visitElement = document.createElement('a');
+            visitElement.textContent = `Visit profile`;
+            visitElement.classList.add('link1');
+            visitElement.href='user.html';
+            foodItem.appendChild(visitElement);
 
 
             foodList.appendChild(foodItem);

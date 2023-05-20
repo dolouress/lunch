@@ -239,6 +239,14 @@ a:hover, a.link1:hover {
 .wrapper, .extra_wrapper {
 	overflow: hidden;
 }
+
+.wrapper2{
+	overflow: hidden;
+	border: 1px solid #858080;
+	border-radius: 5px;
+	padding: 20px;
+	margin-bottom: 10px;
+}
 .clear {
 	float: none !important;
 	clear: both;
@@ -442,6 +450,7 @@ a.gal:hover img {
 
 .blog {
 	overflow: hidden;
+	
 }
 
 .blog+.blog {

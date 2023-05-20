@@ -79,6 +79,7 @@
             const foodName = food.name;
             const expirationDate = food.expiration_date;
             const foodId = food.food_id;
+            const foodOffered = food.is_offered;
 
             const foodItem = document.createElement('div');
             foodItem.classList.add('prod');
@@ -88,9 +89,15 @@
             foodItem.appendChild(nameElement);
 
             const expirationElement = document.createElement('p');
-            expirationElement.textContent = `Expiration Date: ${expirationDate}`;
+            let part = expirationDate.slice(0,10);
+            expirationElement.textContent = `Expiration Date: ${part}`;
             //FIX DATE TO LOOK BETTER, LIKE DATE , USE time
             foodItem.appendChild(expirationElement);
+
+            const offeredElement = document.createElement('p');
+            offeredElement.textContent = `Offered: ${foodOffered}`;
+            //FIX DATE TO LOOK BETTER, LIKE DATE , USE time
+            foodItem.appendChild(offeredElement);
 
             const offered = document.createElement('button');
             offered.textContent = `Offer`;
@@ -168,6 +175,7 @@
             .then(response => {
                         if (response.ok) {
                           // Food item added successfully, perform any necessary actions
+                          location.reload();
                           console.log('Food offered');
                         } else {
                           console.error('Failed to offer food item');
@@ -194,6 +202,7 @@
             .then(response => {
                         if (response.ok) {
                           // Food item added successfully, perform any necessary actions
+                          location.reload();
                           console.log('Food offered');
                         } else {
                           console.error('Failed to offer food item');

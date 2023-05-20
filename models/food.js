@@ -3,7 +3,7 @@ const connection = require('../config/database.js');
 const Food = {
   findFoodByUserId: (userId, callback) => {
     const query = `
-      SELECT f.food_id, f.name, uf.expiration_date
+      SELECT f.food_id, f.name, uf.expiration_date, uf.is_offered
       FROM food AS f
       JOIN user_food AS uf ON f.food_id = uf.food_id
       WHERE uf.user_id = ?;
@@ -78,6 +78,23 @@ const Food = {
       JOIN user_food AS uf ON f.food_id = uf.food_id
       WHERE uf.user_id = ? AND uf.is_offered = 1;
     `;
+    connection.query(query, [userId], (error, results) => {
+      if (error) {
+        console.error('Error finding offered food:', error);
+        return callback(error, null);
+      }
+      return callback(null, results);
+    });
+  },
+  allOfferedFood: (userId, callback) => {
+    const query = `
+        SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country
+        FROM food AS f
+        JOIN user_food AS uf ON f.food_id = uf.food_id
+        JOIN user AS u ON u.user_id = uf.user_id
+        JOIN location AS l ON u.location_id = l.location_id
+        WHERE uf.user_id != ? AND uf.is_offered = 1
+  `;
     connection.query(query, [userId], (error, results) => {
       if (error) {
         console.error('Error finding offered food:', error);
