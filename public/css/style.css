@@ -92,6 +92,11 @@ h3 {
 	margin-bottom: 44px;
 }
 
+h5{
+	font-size: 30px;
+	line-height: 30px;
+}
+
 .page1 h3 {
 	padding-top: 0;
 	margin-bottom: 15px;
@@ -178,6 +183,9 @@ a:hover, a.link1:hover {
 }
 .m0 {
 	margin: 0 !important;
+}
+.mb1{
+	margin-top: 0px !important;
 }
 
 
@@ -579,10 +587,13 @@ address dd span {
 }
 
 .addRecipe{
-	border: 2px solid #801919;
-	border-radius: 2px;
+	border: 1px solid #858080;
+	border-radius: 5px;
 	padding: 10px;
 	text-align: right;
+}
+.addRecipe button{
+	background-color: #858080;
 }
 
 .divSignup{

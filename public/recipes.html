@@ -53,13 +53,18 @@
         <li><a href="#" onclick="orderRecipes('rating')">Rating</a></li>
       </ul>
       <h2>&nbsp;</h2>
-      <div class="addRecipe">
-      Name: <textarea></textarea><br>
-      Description: <textarea></textarea>
-      Difficulty: <textarea></textarea>
-      <h2>&nbsp;</h2>
-      <button id="addRecipe">Add new recipe</button>
-    </div>
+      
+        <h5>Add new recipe:</h5>
+        <div class="addRecipe">
+  
+            Name: <input type="text" size="20" id="recipeName"><br><br>
+            Description: <input type="text" size="20" id="recipeDesc"><br><br>
+            Difficulty:<input type="range" id="recipeDiff" min="1" max="5">
+            
+            <h2>&nbsp;</h2>
+            <button id="addRecipe">Add</button>
+          </div>
+       
     </div>
     
   </div>
@@ -154,6 +159,40 @@
         recipeList.innerHTML = '<p>Error retrieving sorted recipes. Please try again later.</p>';
       });
   }
+  // Function to handle adding a new recipe
+  function addNewRecipe() {
+    const recipeName = document.getElementById('recipeName').value;
+    const description = document.getElementById('recipeDesc').value;
+    const difficulty = document.getElementById('recipeDiff').value;
+    
+    // Prepare the data to send to the server
+    const recipe = {
+      name: recipeName,
+      description: description,
+      difficulty: difficulty
+    };
+    
+    // Send a POST request to the server to add the new recipe
+    fetch('/recipe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(recipe)
+    })
+      .then(response => response.json())
+      .then(result => {
+        // Handle the response from the server
+        console.log('New recipe added:', result);
+        // Refresh the recipe list or perform any other necessary actions
+      })
+      .catch(error => {
+        console.error('Error adding new recipe:', error);
+      });
+  }
+  
+  // Add an event listener to the "Add" button
+  document.getElementById('addRecipe').addEventListener('click', addNewRecipe);
 </script>
 </body>
 </html>

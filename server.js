@@ -32,6 +32,22 @@ app.post('/signup', (req, res) => {
     return res.status(200).json({ success: true, message: 'User created successfully' });
   });
 });
+
+// Route to add a new recipe
+app.post('/recipe', (req, res) => {
+  const recipe = req.body;
+
+  Recipe.addRecipe(recipe, (error, recipeId) => {
+    if (error) {
+      console.error('Error adding recipe:', error);
+      res.status(500).json({ error: 'Failed to add recipe' });
+    } else {
+      res.status(201).json({ recipeId: recipeId });
+    }
+  });
+});
+
+
 // Route handler for user login
 app.post('/login', (req, res) => {
   const email = req.body.email;
