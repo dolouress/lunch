@@ -54,7 +54,7 @@
       </ul>
       <h4 class="head1">My Offered Food:</h4>
       <div class="post">
-        <div class="l_blox"> <img src="images/page3_img5.jpg" alt="">
+        <div class="l_blox" id="myOfferedFoodList"> 
           <h2 id="foodName"> Food name</h2>
           <time datetime="2045-01-01">2045-07-04</time>
         </div>
@@ -78,6 +78,64 @@
          </div>
   </div>
 </div>
+<script>
+  window.onload = () => {
+    // Fetch user's food data
+    fetch('/offeredFood')
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received food data
+        if ( data.length > 0) {
+          // Display the food items in the HTML page
+          const foodList = document.getElementById('myOfferedFoodList');
 
+          data.forEach(food => {
+            const foodName = food.name;
+            const expirationDate = food.expiration_date;
+            const foodId = food.food_id;
+
+            const foodItem = document.createElement('div');
+            foodItem.classList.add('l_blox');
+
+            const nameElement = document.createElement('h2');
+            nameElement.textContent = `Name: ${foodName}`;
+            foodItem.appendChild(nameElement);
+
+            const expirationElement = document.createElement('time');
+            
+            expirationElement.value = expirationDate;
+            expirationElement.dateTime = "2045-01-01";
+            foodItem.appendChild(expirationElement);
+
+            const offered = document.createElement('button');
+            offered.textContent = `Offer`;
+
+            offered.addEventListener('click', () => {
+              markAsOffered(foodId);
+            });
+
+            const notOffered = document.createElement('button');
+            notOffered.textContent = `Don't offer`;
+
+            notOffered.addEventListener('click', () => {
+              markAsNotOffered(foodId);
+            });
+
+            foodItem.appendChild(offered);
+            foodItem.appendChild(notOffered);
+
+            foodList.appendChild(foodItem);
+          });
+        } else {
+          // Display a message when there are no food items
+          const foodList = document.getElementById('foodList');
+          foodList.innerHTML = '<p>No food items found.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving user food:', error);
+      });
+    }
+</script>
 </body>
 </html>

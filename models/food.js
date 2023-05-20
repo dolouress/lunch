@@ -70,6 +70,21 @@ const Food = {
       return callback(null, result);
     }
   });
+  },
+  userOfferedFood: (userId, callback) => {
+    const query = `
+      SELECT f.food_id, f.name, uf.expiration_date
+      FROM food AS f
+      JOIN user_food AS uf ON f.food_id = uf.food_id
+      WHERE uf.user_id = ? AND uf.is_offered = 1;
+    `;
+    connection.query(query, [userId], (error, results) => {
+      if (error) {
+        console.error('Error finding offered food:', error);
+        return callback(error, null);
+      }
+      return callback(null, results);
+    });
   }
   
   

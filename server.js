@@ -183,6 +183,8 @@ app.post('/offer', (req, res) => {
   });
 });
 
+
+// MARKING FOOD AS NOT OFFERED
 app.post('/dontoffer', (req, res) => {
   const foodId = req.body.foodId;
   const userId = 1; //req.session.userId;
@@ -199,7 +201,22 @@ app.post('/dontoffer', (req, res) => {
   });
 });
 
-
+//SHOWING USERS OFFERED FOOD ON blog.HTML
+app.get('/offeredFood', (req, res) => {
+  const userId = 1; //req.session.userId;
+  // Log the value of userId
+  console.log('User ID:', userId);
+  
+  Food.userOfferedFood(userId, (error, results) => {
+    if (error) {
+      console.error('Error retrieving user offered food:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('User offered food:', results);
+      res.json(results);
+    }
+  });
+});
 
 
 // Serve static files from the "public" directory
