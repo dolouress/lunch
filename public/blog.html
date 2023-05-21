@@ -42,8 +42,8 @@
     <div class="grid_4 prefix_1">
       <h4>Filter by:</h4>
       <ul class="list">
-        <li><a href="#">Expiration date</a></li>
-        <li><a href="#">Location </a></li>
+        <li><a href="#" onclick="orderOffered('expDate')">Expiration date</a></li>
+        <li><a href="#" onclick="orderOffered('location')">Location </a></li>
         <li><a href="#">Missing for recipe</a></li>
       </ul>
       <h4 class="head1">My Offered Food:</h4>
@@ -168,6 +168,73 @@
         console.error('Error retrieving user food:', error);
       });
     }
+      //SORTING 
+  // Function to fetch and display recipes based on sorting parameter
+  function orderOffered(sortBy) {
+    const foodList = document.getElementById('allOfferedFoodList');
+    foodList.innerHTML = 'Loading...';
+
+    const url = '/allOfferedFood?sort=' + sortBy;
+
+    fetch(url)
+    // Fetch user's food data
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received food data
+        foodList.innerHTML = '';
+        if ( data.length > 0) {
+          // Display the food items in the HTML page
+          //const foodList = document.getElementById('allOfferedFoodList');
+
+          data.forEach(food => {
+            const foodName = food.name;
+            const expirationDate = food.expiration_date;
+            const foodId = food.food_id;
+            const userName = food.user_name;
+            const city = food.city;
+            const country = food.country;
+
+            const foodItem = document.createElement('div');
+            foodItem.classList.add('wrapper2');
+
+            const nameElement = document.createElement('h2');
+            nameElement.textContent = `${foodName}`;
+            foodItem.appendChild(nameElement);
+
+            const expirationElement = document.createElement('p');
+            let part = expirationDate.slice(0,10);
+            expirationElement.textContent = `${part}`;
+            //FIX DATE TO LOOK BETTER, LIKE DATE , USE time
+            foodItem.appendChild(expirationElement);
+
+            const locationElement = document.createElement('h2');
+            locationElement.textContent = `Location: ${city}, ${country}`;
+            foodItem.appendChild(locationElement);
+
+            const usernameElement = document.createElement('h2');
+            usernameElement.textContent = `By: ${userName}`;
+            foodItem.appendChild(usernameElement);
+
+            const visitElement = document.createElement('a');
+            visitElement.textContent = `Visit profile`;
+            visitElement.classList.add('link1');
+            visitElement.href='user.html';
+            foodItem.appendChild(visitElement);
+
+
+            foodList.appendChild(foodItem);
+          });
+        } else {
+          // Display a message when there are no food items
+          const foodList = document.getElementById('foodList');
+          foodList.innerHTML = '<p>No food items found.</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving user food:', error);
+      });
+    }
+  
 </script>
 </body>
 </html>

@@ -169,11 +169,12 @@ app.post('/foods', (req, res) => {
 
 app.post('/offer', (req, res) => {
   const foodId = req.body.foodId;
+  const userfoodId = req.body.userfoodId;
   const userId = 1; //req.session.userId;
 
   // Update the is_offered field for the specified foodId
-  const query = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ?';
-  connection.query(query, [foodId, userId], (error, results) => {
+  const query = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ? AND user_food_id = ?';
+  connection.query(query, [foodId, userId, userfoodId], (error, results) => {
     if (error) {
       console.error('Error marking food as offered:', error);
       res.status(500).json({ message: 'Failed to mark food as offered' });
@@ -188,10 +189,11 @@ app.post('/offer', (req, res) => {
 app.post('/dontoffer', (req, res) => {
   const foodId = req.body.foodId;
   const userId = 1; //req.session.userId;
+  const userfoodId = req.body.userfoodId;
 
   // Update the is_offered field for the specified foodId
-  const query = 'UPDATE user_food SET is_offered = 0 WHERE food_id = ? AND user_id = ?';
-  connection.query(query, [foodId, userId], (error, results) => {
+  const query = 'UPDATE user_food SET is_offered = 0 WHERE food_id = ? AND user_id = ? AND user_food_id = ?';
+  connection.query(query, [foodId, userId,userfoodId], (error, results) => {
     if (error) {
       console.error('Error marking food as offered:', error);
       res.status(500).json({ message: 'Failed to mark food as offered' });
@@ -218,21 +220,36 @@ app.get('/offeredFood', (req, res) => {
   });
 });
 
-//SHOWING USERS OFFERED FOOD ON blog.HTML
+
+
 app.get('/allOfferedFood', (req, res) => {
   const userId = 1; //req.session.userId;
+  const sort = req.query.sort;
   // Log the value of userId
   console.log('User ID:', userId);
-  
-  Food.allOfferedFood(userId, (error, results) => {
-    if (error) {
-      console.error('Error retrieving user offered food:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      console.log('Other users offered food:', results);
-      res.json(results);
-    }
-  });
+  // Check if sorting parameter is provided
+  if (sort === 'expDate') {
+    // Sort recipes by expDate
+    Food.allOfferedFoodSortedByExpDate(userId,(error, results) => {
+      if (error) {
+        console.error('Error retrieving sorted food:', error);
+        return res.status(500).json({ error: 'An error occurred while retrieving sorted food' });
+      }
+      return res.json(results);
+    });
+  } 
+  else {
+      // Fetch all offered food
+      Food.allOfferedFood(userId, (error, results) => {
+        if (error) {
+          console.error('Error retrieving user offered food:', error);
+          res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+          console.log('Other users offered food:', results);
+          res.json(results);
+        }
+      });
+  }
 });
 
 

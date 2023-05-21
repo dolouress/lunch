@@ -80,6 +80,7 @@
             const expirationDate = food.expiration_date;
             const foodId = food.food_id;
             const foodOffered = food.is_offered;
+            const userfoodId = food.user_food_id;
 
             const foodItem = document.createElement('div');
             foodItem.classList.add('prod');
@@ -103,14 +104,15 @@
             offered.textContent = `Offer`;
 
             offered.addEventListener('click', () => {
-              markAsOffered(foodId);
+              markAsOffered(foodId, userfoodId);
+              
             });
 
             const notOffered = document.createElement('button');
             notOffered.textContent = `Don't offer`;
 
             notOffered.addEventListener('click', () => {
-              markAsNotOffered(foodId);
+              markAsNotOffered(foodId, userfoodId);
             });
 
             foodItem.appendChild(offered);
@@ -160,9 +162,11 @@
   
 
   // Function to mark food as offered
-  const markAsOffered = (foodId) => {
+  const markAsOffered = (foodId, userfoodId) => {
+
               const data = {
-              foodId: foodId
+              foodId: foodId,
+              userfoodId: userfoodId
             };
 
             fetch('/offer', {
@@ -179,6 +183,7 @@
                           console.log('Food offered');
                         } else {
                           console.error('Failed to offer food item');
+                          console.log('food not offered');
                         }
                       })
                       .catch(error => {
@@ -187,9 +192,10 @@
     };
 
     // Function to mark food as not offered
-  const markAsNotOffered = (foodId) => {
+  const markAsNotOffered = (foodId, userfoodId) => {
               const data = {
-              foodId: foodId
+              foodId: foodId,
+              userfoodId: userfoodId
             };
 
             fetch('/dontoffer', {

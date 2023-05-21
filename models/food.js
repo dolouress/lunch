@@ -3,7 +3,7 @@ const connection = require('../config/database.js');
 const Food = {
   findFoodByUserId: (userId, callback) => {
     const query = `
-      SELECT f.food_id, f.name, uf.expiration_date, uf.is_offered
+      SELECT f.food_id, f.name, uf.expiration_date, uf.is_offered, uf.user_food_id
       FROM food AS f
       JOIN user_food AS uf ON f.food_id = uf.food_id
       WHERE uf.user_id = ?;
@@ -57,20 +57,6 @@ const Food = {
   },
 
 
-  markFoodAsOffered: (foodId, userId, callback) => {
-    // Update the is_offered field for the specified foodId
-  const query = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ?';
-  connection.query(query, [foodId, userId], (error, result) => {
-    if (error) {
-      console.error('Error marking food as offered:', error);
-        console.log("ne radi");
-        return callback(error, null);
-    } else {
-      console.log("radi");
-      return callback(null, result);
-    }
-  });
-  },
   userOfferedFood: (userId, callback) => {
     const query = `
       SELECT f.food_id, f.name, uf.expiration_date
@@ -102,7 +88,52 @@ const Food = {
       }
       return callback(null, results);
     });
+  },
+  allOfferedFoodSortedByExpDate: (userId, callback) => {
+    // Fetch recipes sorted by food exp date
+    const query = `
+    SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country
+        FROM food AS f
+        JOIN user_food AS uf ON f.food_id = uf.food_id
+        JOIN user AS u ON u.user_id = uf.user_id
+        JOIN location AS l ON u.location_id = l.location_id
+        WHERE uf.user_id != ? AND uf.is_offered = 1
+    ORDER BY uf.expiration_date 
+    `;
+    connection.query(query, [userId], (error, results) => {
+      if (error) {
+        console.error('Error finding sorted food:', error);
+        return callback(error, null);
+      }
+      return callback(null, results);
+    });
+  },
+  allOfferedFoodSortedByLocation: (userId, userLocation, callback) => {
+    const query = `
+      SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country,
+        (
+          6371 * acos(
+            cos(radians(?)) * cos(radians(l.latitude)) * cos(radians(l.longitude) - radians(?)) +
+            sin(radians(?)) * sin(radians(l.latitude))
+          )
+        ) AS distance
+      FROM food AS f
+      JOIN user_food AS uf ON f.food_id = uf.food_id
+      JOIN user AS u ON u.user_id = uf.user_id
+      JOIN location AS l ON u.location_id = l.location_id
+      WHERE uf.user_id != ? AND uf.is_offered = 1
+      ORDER BY distance;
+    `;
+    const values = [userLocation.latitude, userLocation.longitude, userLocation.latitude, userId];
+    connection.query(query, values, (error, results) => {
+      if (error) {
+        console.error('Error finding offered food:', error);
+        return callback(error, null);
+      }
+      return callback(null, results);
+    });
   }
+  
   
   
 }
