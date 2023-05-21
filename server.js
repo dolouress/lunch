@@ -225,6 +225,7 @@ app.get('/offeredFood', (req, res) => {
 app.get('/allOfferedFood', (req, res) => {
   const userId = 1; //req.session.userId;
   const sort = req.query.sort;
+  
   // Log the value of userId
   console.log('User ID:', userId);
   // Check if sorting parameter is provided
@@ -238,6 +239,16 @@ app.get('/allOfferedFood', (req, res) => {
       return res.json(results);
     });
   } 
+  else if(sort === 'location'){
+    // Sort recipes by location
+    Food.allOfferedFoodSortedByLocation(userId,(error, results) => {
+      if (error) {
+        console.error('Error retrieving sorted food:', error);
+        return res.status(500).json({ error: 'An error occurred while retrieving sorted food' });
+      }
+      return res.json(results);
+    });
+  }
   else {
       // Fetch all offered food
       Food.allOfferedFood(userId, (error, results) => {

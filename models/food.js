@@ -108,24 +108,47 @@ const Food = {
       return callback(null, results);
     });
   },
-  allOfferedFoodSortedByLocation: (userId, userLocation, callback) => {
+  allOfferedFoodSortedByLocation: (userId, callback) => {
     const query = `
-      SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country,
-        (
-          6371 * acos(
-            cos(radians(?)) * cos(radians(l.latitude)) * cos(radians(l.longitude) - radians(?)) +
-            sin(radians(?)) * sin(radians(l.latitude))
-          )
+      SELECT
+        f.food_id,
+        f.name,
+        uf.expiration_date,
+        u.name AS user_name,
+        l.city,
+        l.country,
+        l.longitude,
+        l.latitude,
+        ROUND(
+          6371 *
+          2 *
+          ASIN(
+            SQRT(
+              POWER(
+                SIN((ul.latitude - l.latitude) * PI() / 180 / 2), 2
+              ) +
+              COS(ul.latitude * PI() / 180) *
+              COS(l.latitude * PI() / 180) *
+              POWER(
+                SIN((ul.longitude - l.longitude) * PI() / 180 / 2), 2
+              )
+            )
+          ),
+          2
         ) AS distance
-      FROM food AS f
-      JOIN user_food AS uf ON f.food_id = uf.food_id
-      JOIN user AS u ON u.user_id = uf.user_id
-      JOIN location AS l ON u.location_id = l.location_id
-      WHERE uf.user_id != ? AND uf.is_offered = 1
-      ORDER BY distance;
+      FROM
+        food AS f
+        JOIN user_food AS uf ON f.food_id = uf.food_id
+        JOIN user AS u ON u.user_id = uf.user_id
+        JOIN location AS l ON u.location_id = l.location_id
+        JOIN user AS uu ON uu.user_id = ?
+        JOIN location as ul ON uu.location_id = ul.location_id
+      WHERE
+        uf.user_id != ? AND uf.is_offered = 1
+      ORDER BY
+        distance ASC;
     `;
-    const values = [userLocation.latitude, userLocation.longitude, userLocation.latitude, userId];
-    connection.query(query, values, (error, results) => {
+    connection.query(query, [userId, userId], (error, results) => {
       if (error) {
         console.error('Error finding offered food:', error);
         return callback(error, null);
@@ -133,8 +156,6 @@ const Food = {
       return callback(null, results);
     });
   }
-  
-  
   
 }
 
