@@ -266,7 +266,6 @@ app.get('/allOfferedFood', (req, res) => {
   }
 });
 
-app.set('view engine', 'ejs');
 
 // Handle GET request for /userProfile/:userId
 app.get('/userProfile/:userId', (req, res) => {

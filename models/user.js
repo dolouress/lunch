@@ -26,11 +26,12 @@ const User = {
     });
   },
 
-    // Get user profile data by foodId
+    // Get user profile data by userId
   getUserProfileData: (userId, callback) => {
     const query = `
-      SELECT u.name, u.surname, u.phone, u.email
+      SELECT u.name, u.surname, u.phone, u.email, AVG(r.rating) AS average
       FROM user AS u
+      JOIN review AS r ON u.user_id = r.to_user_id
       WHERE u.user_id = ?;
     `;
 
@@ -47,7 +48,8 @@ const User = {
         name: results[0].name,
         surname: results[0].surname,
         phone: results[0].phone,
-        email:results[0].email
+        email:results[0].email,
+        average: results[0].average
       };
 
       return callback(null, userProfileData);

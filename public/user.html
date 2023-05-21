@@ -39,6 +39,11 @@
         <h2><span id="userName"></span>&nbsp;<span id="userSurname"> </span></h2>
         <p><strong>Email:</strong> <span id="userEmail"></span></p>
         <p><strong>Phone:</strong> <span id="userPhone"></span></p>
+        <p><strong>Average Rating:</strong> <span id="average"></span></p>
+        <div>
+          <input type="text" id="reviewComment" placeholder="Leave a review comment">
+          <button onclick="submitReview()">Submit</button>
+        </div>
       </div>
     </div>
   </div>
@@ -48,6 +53,28 @@
   function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
+  }
+
+  // Function to submit a review
+  function submitReview(userId) {
+    userId = getQueryParam('id');
+    const comment = document.getElementById('reviewComment').value;
+
+    // Make an AJAX request to submit the review comment
+    fetch('/submitReview', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId, comment })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Review submitted successfully:', data);
+      })
+      .catch(error => {
+        console.error('Error submitting review:', error);
+      });
   }
 
   window.onload = () => {
@@ -63,6 +90,7 @@
         document.getElementById('userSurname').textContent = data.surname;
         document.getElementById('userEmail').textContent = data.email;
         document.getElementById('userPhone').textContent = data.phone;
+        document.getElementById('average').textContent = data.average;
       })
       .catch(error => {
         console.error('Error retrieving user profile:', error);
