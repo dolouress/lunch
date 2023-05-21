@@ -207,6 +207,22 @@ app.post('/dontoffer', (req, res) => {
   });
 });
 
+//SHOWING OFFERED FOOD ON blog.HTML
+app.get('/location', (req, res) => {
+  const userId = 13; //req.session.userId;
+  // Log the value of userId
+  console.log('User ID:', userId);
+  
+  User.location(userId, (error, results) => {
+    if (error) {
+      console.error('Error retrieving user location info:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 //SHOWING USERS OFFERED FOOD ON blog.HTML
 app.get('/offeredFood', (req, res) => {
   const userId = 1; //req.session.userId;
@@ -223,6 +239,8 @@ app.get('/offeredFood', (req, res) => {
     }
   });
 });
+
+
 
 
 

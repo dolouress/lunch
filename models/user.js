@@ -54,7 +54,21 @@ const User = {
 
       return callback(null, userProfileData);
     });
-  }
+  },
+  location: (userId, callback) => {
+    const query = `
+      SELECT u.location_id
+      FROM user AS u 
+      WHERE u.user_id = ? AND u.location_id IS NOT NULL;
+    `;
+    connection.query(query, [userId], (error, results) => {
+      if (error) {
+        console.error('Error finding users location:', error);
+        return callback(error, null);
+      }
+      return callback(null, results);
+    });
+  },
 };
 
 module.exports = User;

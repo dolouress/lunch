@@ -29,7 +29,7 @@
     </div>
   </div>
 </header>
-<div class="content">
+<div class="content" id="contentDiv">
   <div class="container_12">
     <div class="grid_12">
       <h3>Offered Food</h3>
@@ -80,11 +80,28 @@
 
 
   window.onload = () => {
+    //check if user has location
+    fetch('/location')
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received food data
+        if(data.length == 0){
+          const warning = document.createElement('h2');
+          warning.textContent = 'You location is not entered, please enter your location to be able to use this feature! Thank you!';
+          const content = document.getElementById('contentDiv');
+          content.classList.add('container_12');
+          content.innerHTML = '';
+          content.appendChild(warning);
+        }
+      })
+      .catch(error => {
+        console.error('Error retrieving user food:', error);
+      });
+
     // Fetch user's food data
     fetch('/offeredFood')
       .then(response => response.json())
       .then(data => {
-        // Handle the received food data
         
         if ( data.length > 0) {
           // Display the food items in the HTML page

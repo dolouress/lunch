@@ -62,7 +62,8 @@ const Food = {
       SELECT f.food_id, f.name, uf.expiration_date
       FROM food AS f
       JOIN user_food AS uf ON f.food_id = uf.food_id
-      WHERE uf.user_id = ? AND uf.is_offered = 1;
+      JOIN user AS u ON u.user_id = uf.user_id
+      WHERE uf.user_id = ? AND uf.is_offered = 1 AND u.location_id IS NOT NULL;
     `;
     connection.query(query, [userId], (error, results) => {
       if (error) {
