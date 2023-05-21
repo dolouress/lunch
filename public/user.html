@@ -41,8 +41,9 @@
         <p><strong>Phone:</strong> <span id="userPhone"></span></p>
         <p><strong>Average Rating:</strong> <span id="average"></span></p>
         <div>
-          <input type="text" id="reviewComment" placeholder="Leave a review comment">
-          <button onclick="submitReview()">Submit</button>
+          <input type="text" id="rating" placeholder="Rate user (1-5)">
+          <input type="text" id="comment" placeholder="Leave a review comment">
+          <button type="submit" id="submit" name="submit">Submit</button>
         </div>
       </div>
     </div>
@@ -55,28 +56,7 @@
     return urlParams.get(param);
   }
 
-  // Function to submit a review
-  function submitReview(userId) {
-    userId = getQueryParam('id');
-    const comment = document.getElementById('reviewComment').value;
-
-    // Make an AJAX request to submit the review comment
-    fetch('/submitReview', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId, comment })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Review submitted successfully:', data);
-      })
-      .catch(error => {
-        console.error('Error submitting review:', error);
-      });
-  }
-
+  
   window.onload = () => {
     // Get the user ID from the query parameter
     const userId = getQueryParam('id');
@@ -96,6 +76,45 @@
         console.error('Error retrieving user profile:', error);
       });
   };
+
+  document.getElementById("submit").addEventListener("click", addReview);
+  
+    function addReview() {
+      const rating = document.getElementById("rating").value;
+      const comment = document.getElementById("comment").value;;
+  
+      const review = {
+        rating: rating,
+        comment: comment
+      };
+
+      const userId = getQueryParam('id');
+  
+      fetch('/addReview/' + userId, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(review)
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Error adding review");
+        }
+      })
+      .then(data => {
+        if (data.userId) {
+        } else {
+          location.reload();
+            alert("Review added successfully");
+        }
+      })
+      .catch(error => {
+        console.error("Error adding review:", error);
+      });
+    }
 </script>
 </body>
 </html>

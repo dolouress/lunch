@@ -5,6 +5,7 @@ const path = require('path');
 const User = require('./models/user');
 const Food = require('./models/food');
 const Recipe = require('./models/recipe');
+const Review = require('./models/review');
 const connection = require('./config/database.js');
 
 
@@ -269,10 +270,10 @@ app.get('/allOfferedFood', (req, res) => {
 
 // Handle GET request for /userProfile/:userId
 app.get('/userProfile/:userId', (req, res) => {
-  const userId = req.params.userId;
+  const userId1 = req.params.userId;
 
   // Get the user profile data for the provided userId
-  User.getUserProfileData(userId, (error, userProfileData) => {
+  User.getUserProfileData(userId1, (error, userProfileData) => {
     if (error) {
       // Handle the error case
       return res.status(500).send('Error retrieving user profile data');
@@ -283,7 +284,21 @@ app.get('/userProfile/:userId', (req, res) => {
   });
 });
 
+// Route handler for creating a new review
+app.post('/addReview/:userId', (req, res) => {
+  const review = req.body;
+  const toUser = req.params.userId;
+  const byUser = 1; //req.session.userId;
 
+  Review.addReview(toUser, byUser, review, (error, reviewId) => {
+    if (error) {
+      console.error('Error creating review:', error);
+      return res.status(500).json({ success: false, message: 'Error creating review' });
+    }
+
+    return res.status(200).json({ success: true, message: 'Review created successfully' });
+  });
+});
 
 
 
