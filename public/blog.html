@@ -70,6 +70,13 @@
   </div>
 </div>
 <script>
+  // Function to open the user profile page
+  function openUserProfile(userId) {
+    // Redirect to the user.html page with the user ID as a query parameter
+    window.location.href = 'user.html?id=' + userId;
+  }
+
+
   window.onload = () => {
     // Fetch user's food data
     fetch('/offeredFood')
@@ -111,6 +118,8 @@
         console.error('Error retrieving user food:', error);
       });
 
+      
+
       // Fetch user's food data
     fetch('/allOfferedFood')
       .then(response => response.json())
@@ -127,6 +136,7 @@
             const userName = food.user_name;
             const city = food.city;
             const country = food.country;
+            const userOffersId = food.user_id;
 
             const foodItem = document.createElement('div');
             foodItem.classList.add('wrapper2');
@@ -152,10 +162,10 @@
             const visitElement = document.createElement('a');
             visitElement.textContent = `Visit profile`;
             visitElement.classList.add('link1');
-            visitElement.href='user.html';
+            visitElement.href = 'javascript:void(0)';
+            visitElement.addEventListener('click', () => openUserProfile(food.user_id));
             foodItem.appendChild(visitElement);
-
-
+            
             foodList.appendChild(foodItem);
           });
         } else {
@@ -167,7 +177,9 @@
       .catch(error => {
         console.error('Error retrieving user food:', error);
       });
-    }
+      
+    };
+  
       //SORTING 
   // Function to fetch and display recipes based on sorting parameter
   function orderOffered(sortBy) {
@@ -218,8 +230,11 @@
             const visitElement = document.createElement('a');
             visitElement.textContent = `Visit profile`;
             visitElement.classList.add('link1');
-            visitElement.href='user.html';
+            visitElement.href = 'javascript:void(0)';
+            visitElement.addEventListener('click', () => openUserProfile(food.user_id));
             foodItem.appendChild(visitElement);
+            //visitElement.href='user.html';
+            
 
 
             foodList.appendChild(foodItem);

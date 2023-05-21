@@ -7,6 +7,7 @@ const Food = require('./models/food');
 const Recipe = require('./models/recipe');
 const connection = require('./config/database.js');
 
+
 // Configure session middleware
 app.use(session({
   secret: 'miaskey',
@@ -17,6 +18,8 @@ app.use(session({
 
 // Middleware to parse JSON data
 app.use(express.json());
+//app.set('view engine', 'ejs');
+
 
 
 // Route handler for creating a new user
@@ -225,7 +228,7 @@ app.get('/offeredFood', (req, res) => {
 app.get('/allOfferedFood', (req, res) => {
   const userId = 1; //req.session.userId;
   const sort = req.query.sort;
-  
+
   // Log the value of userId
   console.log('User ID:', userId);
   // Check if sorting parameter is provided
@@ -262,6 +265,27 @@ app.get('/allOfferedFood', (req, res) => {
       });
   }
 });
+
+// Handle GET request for /userProfile/:userId
+app.get('/userProfile/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  // Get the user profile data for the provided userId
+  User.getUserProfileData(userId, (error, userProfileData) => {
+    if (error) {
+      // Handle the error case
+      return res.status(500).send('Error retrieving user profile data');
+    }
+
+    // Set the Content-Type header to indicate that the response is HTML
+    res.setHeader('Content-Type', 'text/html');
+
+    // Render the user profile HTML content
+    res.sendFile(path.join(__dirname, 'public/user.html'));
+  });
+});
+
+
 
 
 // Serve static files from the "public" directory

@@ -26,7 +26,32 @@ const User = {
     });
   },
 
-  // Other database operations for User model can be defined here...
+    // Get user profile data by foodId
+  getUserProfileData: (userId, callback) => {
+    const query = `
+      SELECT u.name, u.surname, u.phone
+      FROM user AS u
+      WHERE u.user_id = ?;
+    `;
+
+    connection.query(query, [userId], (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+
+      if (results.length === 0) {
+        return callback('No user profile found for the given userId.', null);
+      }
+
+      const userProfileData = {
+        name: results[0].name,
+        surname: results[0].surname,
+        phone: results[0].phone
+      };
+
+      return callback(null, userProfileData);
+    });
+  }
 };
 
 module.exports = User;

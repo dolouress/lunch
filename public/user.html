@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>User Profile</title>
+<meta charset="utf-8">
+<link rel="icon" href="images/favicon.ico">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/font-awesome.css">
+</head>
+<body>
+<header>
+  <div class="container_12">
+    <div class="grid_12">
+      <h1><a href="index.html"><img src="images/logo.png" alt=""></a> </h1>
+      <div class="menu_block">
+        <nav>
+          <ul class="sf-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">My food</a></li>
+            <li><a href="blog.html">Offerings</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="profile.html">Profile</a></li>
+          </ul>
+        </nav>
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+</header>
+<div class="content">
+  <div class="container_12">
+    <div class="grid_12">
+      <h3>User Profile</h3>
+    </div>
+    <div class="grid_7">
+      <div class="profile">
+        <h2 id="userName"></h2>
+        <p><strong>Email:</strong> <span id="userEmail"></span></p>
+        <p><strong>Phone:</strong> <span id="userPhone"></span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Function to extract query parameter from URL
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  window.onload = () => {
+    // Get the user ID from the query parameter
+    const userId = getQueryParam('id');
+
+    // Fetch the user profile data based on the user ID
+    fetch('/userProfile/' + userId)
+      .then(response => response.json())
+      .then(data => {
+        // Handle the received user profile data
+        document.getElementById('userName').textContent = data.name;
+        document.getElementById('userEmail').textContent = data.email;
+        document.getElementById('userPhone').textContent = data.phone;
+      })
+      .catch(error => {
+        console.error('Error retrieving user profile:', error);
+      });
+  };
+</script>
+</body>
+</html>

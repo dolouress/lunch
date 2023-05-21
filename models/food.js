@@ -74,7 +74,7 @@ const Food = {
   },
   allOfferedFood: (userId, callback) => {
     const query = `
-        SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country
+        SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country, uf.user_id
         FROM food AS f
         JOIN user_food AS uf ON f.food_id = uf.food_id
         JOIN user AS u ON u.user_id = uf.user_id
@@ -92,7 +92,7 @@ const Food = {
   allOfferedFoodSortedByExpDate: (userId, callback) => {
     // Fetch recipes sorted by food exp date
     const query = `
-    SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country
+    SELECT f.food_id, f.name, uf.expiration_date, u.name AS user_name, l.city, l.country, 
         FROM food AS f
         JOIN user_food AS uf ON f.food_id = uf.food_id
         JOIN user AS u ON u.user_id = uf.user_id
@@ -119,6 +119,7 @@ const Food = {
         l.country,
         l.longitude,
         l.latitude,
+        uf.user_id,
         ROUND(
           6371 *
           2 *
