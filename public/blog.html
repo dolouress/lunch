@@ -57,6 +57,7 @@
           <div class="extra_wrapper">
             <p><a href="#">Mirko</a></p>
             <time datetime="2045-01-01">September 11, 2045</time>
+            <p><a href="#">More info</a></p>
           </div>
         </div>
         <div class="comm">
@@ -64,6 +65,7 @@
           <div class="extra_wrapper">
             <p><a href="#">Anja</a></p>
             <time datetime="2045-01-01">September 14, 2045</time>
+            <p><a href="#">More info</a></p>
           </div>
         </div>
          </div>
@@ -83,6 +85,7 @@
       .then(response => response.json())
       .then(data => {
         // Handle the received food data
+        
         if ( data.length > 0) {
           // Display the food items in the HTML page
           const foodList = document.getElementById('myOfferedFoodList');
