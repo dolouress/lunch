@@ -266,6 +266,8 @@ app.get('/allOfferedFood', (req, res) => {
   }
 });
 
+app.set('view engine', 'ejs');
+
 // Handle GET request for /userProfile/:userId
 app.get('/userProfile/:userId', (req, res) => {
   const userId = req.params.userId;
@@ -277,13 +279,11 @@ app.get('/userProfile/:userId', (req, res) => {
       return res.status(500).send('Error retrieving user profile data');
     }
 
-    // Set the Content-Type header to indicate that the response is HTML
-    res.setHeader('Content-Type', 'text/html');
-
-    // Render the user profile HTML content
-    res.sendFile(path.join(__dirname, 'public/user.html'));
+    // Send the user profile data as JSON
+    res.json(userProfileData);
   });
 });
+
 
 
 

@@ -29,7 +29,7 @@ const User = {
     // Get user profile data by foodId
   getUserProfileData: (userId, callback) => {
     const query = `
-      SELECT u.name, u.surname, u.phone
+      SELECT u.name, u.surname, u.phone, u.email
       FROM user AS u
       WHERE u.user_id = ?;
     `;
@@ -46,7 +46,8 @@ const User = {
       const userProfileData = {
         name: results[0].name,
         surname: results[0].surname,
-        phone: results[0].phone
+        phone: results[0].phone,
+        email:results[0].email
       };
 
       return callback(null, userProfileData);
