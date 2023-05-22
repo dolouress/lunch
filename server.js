@@ -209,7 +209,7 @@ app.post('/dontoffer', (req, res) => {
 
 //SHOWING OFFERED FOOD ON blog.HTML
 app.get('/location', (req, res) => {
-  const userId = 13; //req.session.userId;
+  const userId = 1; //req.session.userId;
   // Log the value of userId
   console.log('User ID:', userId);
   
@@ -318,7 +318,46 @@ app.post('/addReview/:userId', (req, res) => {
   });
 });
 
+app.post('/update', (req, res) => {
+  const name = req.body.name;
+  const surname = req.body.surname;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const country = req.body.country;
+  const city = req.body.city;
+  const address = req.body.address;
+  const postalcode = req.body.postalcode;
+  const userId = 1; // req.session.userId;
 
+  // Create a new location record
+  const createLocationQuery = 'INSERT INTO location (city, country, address, postal_code) VALUES (?, ?, ?,?)';
+  connection.query(createLocationQuery, [city, country,address, postalcode], (error, locationCreateResults) => {
+    if (error) {
+      console.error('Error creating location:', error);
+      // Handle the error
+      return res.status(500).send('Error creating location');
+    }
+
+    // Retrieve the newly created location_id
+    const locationId = locationCreateResults.insertId;
+    console.log(locationId);
+
+    // Update user data with the new location_id
+    const updateUserQuery = 'UPDATE user SET name = ?, surname = ?, email = ?, phone = ?, location_id = ? WHERE user_id = ?';
+    connection.query(updateUserQuery, [name, surname, email, phone, locationId, userId], (error, userUpdateResults) => {
+      if (error) {
+        console.error('Error updating user data:', error);
+        // Handle the error
+        return res.status(500).send('Error updating user data');
+      }
+
+      // Data updated successfully
+      return res.status(200).send('Data updated successfully');
+    });
+  });
+});
+
+  
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
