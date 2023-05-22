@@ -17,10 +17,7 @@ app.use(session({
 }));
 
 
-// Middleware to parse JSON data
 app.use(express.json());
-//app.set('view engine', 'ejs');
-
 
 
 // Route handler for creating a new user
@@ -36,20 +33,6 @@ app.post('/signup', (req, res) => {
     console.log('User created successfully. User ID:', userId);
     req.session.userId = userId;
     return res.status(200).json({ success: true, message: 'User created successfully' });
-  });
-});
-
-// Route to add a new recipe
-app.post('/recipe', (req, res) => {
-  const recipe = req.body;
-
-  Recipe.addRecipe(recipe, (error, recipeId) => {
-    if (error) {
-      console.error('Error adding recipe:', error);
-      res.status(500).json({ error: 'Failed to add recipe' });
-    } else {
-      res.status(201).json({ recipeId: recipeId });
-    }
   });
 });
 
@@ -75,9 +58,25 @@ app.post('/login', (req, res) => {
   });
 });
 
+// Route to add a new recipe
+app.post('/recipe', (req, res) => {
+  const recipe = req.body;
+
+  Recipe.addRecipe(recipe, (error, recipeId) => {
+    if (error) {
+      console.error('Error adding recipe:', error);
+      res.status(500).json({ error: 'Failed to add recipe' });
+    } else {
+      res.status(201).json({ recipeId: recipeId });
+    }
+  });
+});
+
+
+
 //SHOWING USERS FOOD ON MY FOOD PRODUCTS.HTML
 app.get('/user-food', (req, res) => {
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
   // Log the value of userId
   console.log('User ID:', userId);
   
@@ -94,7 +93,7 @@ app.get('/user-food', (req, res) => {
 
 //SHOWING food recipes Of MY FOOD PRODUCTS.HTML
 app.get('/recipe-food', (req, res) => {
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
   const sort = req.query.sort;
   // Log the value of userId
   console.log('User ID:', userId);
@@ -156,7 +155,7 @@ app.post('/foods', (req, res) => {
     }
 
     // Retrieve the newly inserted foodId and pass it to addUserFood
-    const userId = 1; //req.session.userId;
+    const userId = req.session.userId;
     Food.addUserFood(userId, foodId, expirationDate, (error, userFoodId) => {
       if (error) {
         console.error('Error adding user food:', error);
@@ -174,7 +173,7 @@ app.post('/foods', (req, res) => {
 app.post('/offer', (req, res) => {
   const foodId = req.body.foodId;
   const userfoodId = req.body.userfoodId;
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
 
   // Update the is_offered field for the specified foodId
   const query = 'UPDATE user_food SET is_offered = 1 WHERE food_id = ? AND user_id = ? AND user_food_id = ?';
@@ -192,7 +191,7 @@ app.post('/offer', (req, res) => {
 // MARKING FOOD AS NOT OFFERED
 app.post('/dontoffer', (req, res) => {
   const foodId = req.body.foodId;
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
   const userfoodId = req.body.userfoodId;
 
   // Update the is_offered field for the specified foodId
@@ -209,7 +208,7 @@ app.post('/dontoffer', (req, res) => {
 
 //SHOWING OFFERED FOOD ON blog.HTML
 app.get('/location', (req, res) => {
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
   // Log the value of userId
   console.log('User ID:', userId);
   
@@ -225,7 +224,7 @@ app.get('/location', (req, res) => {
 
 //SHOWING USERS OFFERED FOOD ON blog.HTML
 app.get('/offeredFood', (req, res) => {
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
   // Log the value of userId
   console.log('User ID:', userId);
   
@@ -245,7 +244,7 @@ app.get('/offeredFood', (req, res) => {
 
 
 app.get('/allOfferedFood', (req, res) => {
-  const userId = 1; //req.session.userId;
+  const userId = req.session.userId;
   const sort = req.query.sort;
 
   // Log the value of userId
@@ -284,6 +283,39 @@ app.get('/allOfferedFood', (req, res) => {
       });
   }
 });
+// Handle GET request for /userProfile/:userId
+app.get('/userLocation', (req, res) => {
+  const userId = req.session.userId;
+
+  // Get the user profile data for the provided userId
+  User.getUserLocationData(userId, (error, userLocationData) => {
+    if (error) {
+      // Handle the error case
+      return res.status(500).send('Error retrieving user profile data');
+    }
+
+    // Send the user profile data as JSON
+    res.json(userLocationData);
+  });
+});
+
+
+// Handle GET request for /userProfile/:userId
+app.get('/userProfile', (req, res) => {
+  const userId = req.session.userId;
+
+  // Get the user profile data for the provided userId
+  User.getUserProfileData(userId, (error, userProfileData) => {
+    if (error) {
+      // Handle the error case
+      return res.status(500).send('Error retrieving user profile data');
+    }
+
+    // Send the user profile data as JSON
+    res.json(userProfileData);
+  });
+});
+
 
 
 // Handle GET request for /userProfile/:userId
@@ -306,7 +338,7 @@ app.get('/userProfile/:userId', (req, res) => {
 app.post('/addReview/:userId', (req, res) => {
   const review = req.body;
   const toUser = req.params.userId;
-  const byUser = 1; //req.session.userId;
+  const byUser = req.session.userId;
 
   Review.addReview(toUser, byUser, review, (error, reviewId) => {
     if (error) {
@@ -327,7 +359,7 @@ app.post('/update', (req, res) => {
   const city = req.body.city;
   const address = req.body.address;
   const postalcode = req.body.postalcode;
-  const userId = 1; // req.session.userId;
+  const userId = req.session.userId;
 
   // Create a new location record
   const createLocationQuery = 'INSERT INTO location (city, country, address, postal_code) VALUES (?, ?, ?,?)';
@@ -356,6 +388,7 @@ app.post('/update', (req, res) => {
     });
   });
 });
+
 
   
 

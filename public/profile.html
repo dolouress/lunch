@@ -142,21 +142,53 @@
             </div><!--end login div-->
             <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
             <script type="text/javascript">
-              const name = document.getElementById('name').value;
-              const surname = document.getElementById('surname').value;
-              const email = document.getElementById('email').value;
-              const phone = document.getElementById('phone').value;
-              const country = document.getElementById('country').value;
-              const city = document.getElementById('city').value;
-              const address = document.getElementById('address').value;
-              const postalcode = document.getElementById('postalcode').value;
+              window.onload = () => {
+                // Fetch the user profile data based on the user ID
+                fetch('/userProfile')
+                  .then(response => response.json())
+                  .then(data => {
+                    // Handle the received user profile data
+                    document.getElementById('name').value = data.name;
+                    document.getElementById('surname').value = data.surname;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('phone').value = data.phone;
+                  })
+                  .catch(error => {
+                    console.error('Error retrieving user profile:', error);
+                  });
+
+                fetch('/userLocation')
+                  .then(response => response.json())
+                  .then(data => {
+                    // Handle the received user location data
+                    document.getElementById('country').value = data.country;
+                    document.getElementById('city').value = data.city;
+                    document.getElementById('address').value = data.address;
+                    document.getElementById('postalcode').value = data.postalcode;
+                  })
+                  .catch(error => {
+                    console.error('Error retrieving user location:', error);
+                  });
+              };
+
               const submit = document.getElementById('update-button');
-              
+
               submit.addEventListener('click', () => {
+                const name = document.getElementById('name').value;
+                const surname = document.getElementById('surname').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const country = document.getElementById('country').value;
+                const city = document.getElementById('city').value;
+                const address = document.getElementById('address').value;
+                const postalcode = document.getElementById('postalcode').value;
+
                 update(name, surname, email, phone, country, city, address, postalcode);
               });
-            
+
               // Function to update user data
               const update = (name, surname, email, phone, country, city, address, postalcode) => {
                 const data = {
@@ -169,7 +201,7 @@
                   address: address,
                   postalcode: postalcode
                 };
-            
+
                 fetch('/update', {
                   method: 'POST',
                   headers: {
@@ -192,8 +224,5 @@
                   });
               };
             </script>
-            
-    
-
 </body>
 </html>

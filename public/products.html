@@ -149,7 +149,8 @@
           })
             .then(response => {
               if (response.ok) {
-                // Food item added successfully, perform any necessary actions
+                location.reload();
+                // Food item added successfully
                 console.log('Food item added successfully');
               } else {
                 console.error('Failed to add food item');

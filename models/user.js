@@ -55,6 +55,42 @@ const User = {
       return callback(null, userProfileData);
     });
   },
+   // Get user profile data by userId
+   getUserLocationData: (userId, callback) => {
+    const query = `
+      SELECT l.country, l.city, l.address, l.postal_code
+      FROM user AS u
+      JOIN location AS l ON u.location_id = l.location_id
+      WHERE u.user_id = ?;
+    `;
+
+    connection.query(query, [userId], (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+
+      if (results.length === 0) {
+        //return callback('No user location found for the given userId.', null);
+        const userLocationData = {
+          country: '',
+          city: '',
+          address: '',
+          postalcode:''
+        };
+        return callback(null, userLocationData);
+      }
+
+      const userLocationData = {
+        country: results[0].country,
+        city: results[0].city,
+        address: results[0].address,
+        postalcode:results[0].postal_code
+      };
+
+      return callback(null, userLocationData);
+    });
+  },
+  //check if user has location so he can use offerings
   location: (userId, callback) => {
     const query = `
       SELECT u.location_id
