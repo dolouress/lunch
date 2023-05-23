@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 
 const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',//codeigniter
-  password: '',//codeigniter2019
+  host: 'localhost', //'https://www.studenti.famnit.upr.si/phpmyadmin/SIS2023',
+  user: 'root',//'codeigniter',
+  password: '',//'codeigniter2019',
   database: 'SISIII2023_89211025',
 });
 

@@ -2,7 +2,7 @@
   "name": "lunch",
   "version": "1.0.0",
   "description": "HTML CSS nodejs project",
-  "main": "home.js",
+  "main": "home.html",
   "scripts": {
     "test": "start"
   },
